@@ -1,0 +1,6 @@
+Job ID: 6267
+Node: node002 echo Starting: 05/08/24 17:43:20
+/home/etowner/.conda/envs/final/lib/python3.10/site-packages/transformers/utils/generic.py:260: UserWarning: torch.utils._pytree._register_pytree_node is deprecated. Please use torch.utils._pytree.register_pytree_node instead.
+  torch.utils._pytree._register_pytree_node(
+Precision: 0.7826424687522068 | Recall: 0.31932773109243695
+Ending: 05/08/24 18:26:55
