@@ -41,6 +41,7 @@ def train_model(model: ApplicationReviewModel, train_loader,
 
             optimizer.zero_grad()
             outputs = model(input_ids, attention_mask)
+           
 
             # print("outputs", outputs)
           

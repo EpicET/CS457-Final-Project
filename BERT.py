@@ -7,7 +7,7 @@ class ApplicationReviewModel(nn.Module):
     def __init__(self):
         super().__init__()
         self.bert =  AutoModel.from_pretrained('distilbert-base-uncased')
-        self.linear_layer = nn.Linear(768, 5)
+        self.linear_layer = nn.Linear(768, 6)
         
 
     def forward(self, input_ids, attention_mask):
