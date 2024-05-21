@@ -21,7 +21,6 @@ epochs = 5
 learning_rate = 1e-2
 
 
-
 def train_model(model: ApplicationReviewModel, train_loader, 
                 dev_loader, epochs: int, learning_rate: float):
     
@@ -34,7 +33,7 @@ def train_model(model: ApplicationReviewModel, train_loader,
         correct = 0
         total = 0
 
-        # model.train()
+        model.train()
         for batch in tqdm(train_loader, desc=f"Epoch {epoch + 1}/{epochs}"):
             input_ids = batch[0].to(device)
             attention_mask = batch[1].to(device)
