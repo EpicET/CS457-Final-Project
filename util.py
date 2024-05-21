@@ -16,13 +16,12 @@ def load_data(data_path: str, sheet_name: str):
 
 def preprocess_data(data):
     # Separate questions and traits
-    questions = data[data[['Q1', 'Q2', 'Q3']].notnull()].copy()
-    traits = data[['work', 'teachability', 'commitment', 'Flexibility', 'adventerous', 'overall score']]
-
+    
     # Convert questions into a single text column
-    questions['combined'] = questions.fillna('').apply(lambda x: ' '.join(map(str, x)), axis=1)
-
-    return questions['combined'], traits
+    questions = data[['Q1', 'Q2', 'Q3']].fillna('').agg(' '.join, axis=1)
+    traits = data[['work', 'teachability', 'commitment', 'Flexibility', 'adventerous', 'overall score']]
+    
+    return questions, traits
 
 def get_dataloader(questions, traits, data, batch_size: int=4):
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
