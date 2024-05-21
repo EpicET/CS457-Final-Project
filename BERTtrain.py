@@ -1,22 +1,17 @@
 from torch import cuda, optim
 from torch import argmax
-from torch.utils.data import DataLoader
 import torch.nn as nn
 from tqdm import tqdm
 from data.private import file_path
 from BERT import ApplicationReviewModel
-from util import load_data, preprocess_data, model_accuracy, get_dataloader
+from util import  preprocess_data, model_accuracy, get_dataloader
 
+# Load and preprocess data
+train_questions, train_traits  = preprocess_data(file_path, "train_data")
+test_questions, test_traits = preprocess_data(file_path, "test_data")
 
-train_data = load_data(file_path, "train_data")
-train_questions, train_traits = preprocess_data(train_data)
-
-test_data = load_data(file_path, "test_data")
-test_questions, test_traits = preprocess_data(test_data)
-
-
-train_loader = get_dataloader(train_questions, train_traits, train_data)
-test_loader = get_dataloader(test_questions, test_traits, test_data)
+train_loader = get_dataloader(train_questions, train_traits)
+test_loader = get_dataloader(test_questions, test_traits)
 epochs = 5
 learning_rate = 1e-2
 

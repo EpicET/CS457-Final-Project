@@ -1,29 +1,24 @@
 import pandas as pd
 from BERT import ApplicationReviewModel
 import torch
-# from datasets import Dataset
 from transformers import AutoTokenizer
 from torch.utils.data import DataLoader, TensorDataset
 
-def load_data(data_path: str, sheet_name: str):
+def preprocess_data(data_path: str, sheet_name: str):
     # Load the data
     data = pd.read_excel(data_path, sheet_name=sheet_name)
 
     # Drop rows with NaN values
     data = data.dropna()
 
-    return data
-
-def preprocess_data(data):
     # Separate questions and traits
-    
     # Convert questions into a single text column
     questions = data[['Q1', 'Q2', 'Q3']].fillna('').agg(' '.join, axis=1)
-    traits = data[['work', 'teachability', 'commitment', 'Flexibility', 'adventerous', 'overall score']]
+    traits = data[['work', 'teachability', 'commitment', 'Flexibility', 'adventerous']]
     
     return questions, traits
 
-def get_dataloader(questions, traits, data, batch_size: int=4):
+def get_dataloader(questions, traits, batch_size: int=4):
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
     tokenized = tokenizer(questions.tolist(), padding=True, truncation=True, return_tensors="pt")
     

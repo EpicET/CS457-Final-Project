@@ -3,15 +3,14 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import precision_score, recall_score
 import matplotlib.pyplot as plt
 from data.private import file_path
-from util import load_data, preprocess_data
+from util import  preprocess_data
 import pandas as pd
 import numpy as np
 
 # Load and preprocess data
-train_data = load_data(file_path, "train_data")
-train_questions, train_traits = preprocess_data(train_data[:40])
-test_data = load_data(file_path, "test_data")
-test_questions, test_traits = preprocess_data(test_data)
+train_questions, train_traits  = preprocess_data(file_path, "train_data")
+test_questions, test_traits = preprocess_data(file_path, "test_data")
+
 
 # Vectorize the text data
 vectorizer = CountVectorizer()
