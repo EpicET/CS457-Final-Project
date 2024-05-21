@@ -18,7 +18,7 @@ def preprocess_data(data_path: str):
     
     return questions, traits
 
-def get_dataloader(questions, traits, batch_size: int=4):
+def get_dataloader(questions: pd.Series, traits: pd.DataFrame, batch_size: int=4):
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
     tokenized = tokenizer(questions.tolist(), padding=True, truncation=True, return_tensors="pt")
     

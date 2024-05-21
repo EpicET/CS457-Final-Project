@@ -59,7 +59,7 @@ for target_trait in traits:
     recalls.append(recall)
 
     # Print results for each trait
-    print(f"Trait: {target_trait} |", f"train accuracy: {train_accuracy} |", f"Test accuracy: {test_accuracy} |", f"Precision: {precision} |", f"Recall: {recall}")
+    print(f"Trait: {target_trait} |", f"Test accuracy: {test_accuracy} |", f"Precision: {precision} |", f"Recall: {recall}")
     print()
 
 
