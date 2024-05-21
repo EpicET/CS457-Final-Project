@@ -8,8 +8,9 @@ import pandas as pd
 import numpy as np
 
 # Load and preprocess data
-train_questions, train_traits  = preprocess_data(file_path, "train_data")
-test_questions, test_traits = preprocess_data(file_path, "test_data")
+questions, traits  = preprocess_data(file_path)
+train_questions, train_traits = questions[24:], traits[24:]
+test_questions, test_traits = questions[:98], traits[:98]
 
 
 # Vectorize the text data
@@ -23,7 +24,7 @@ precisions = []
 recalls = []
 
 # Iterate over each trait
-traits = ['work', 'teachability', 'commitment', 'Flexibility', 'adventerous', 'overall score']
+traits = ['work', 'teachability', 'commitment', 'flexibility', 'adventerous']
 for target_trait in traits:
     y_train = train_traits[target_trait]
     y_train = np.round(y_train).astype(int)
