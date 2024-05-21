@@ -10,11 +10,13 @@ from Baseline import baseline
 from util import  preprocess_data, model_accuracy, get_dataloader
 
 # Load and preprocess data
-train_questions, train_traits  = preprocess_data(file_path, "train_data")
-test_questions, test_traits = preprocess_data(file_path, "test_data")
+questions, traits  = preprocess_data(file_path)
+train_questions, train_traits = questions[24:], traits[24:]
+test_questions, test_traits = questions[:98], traits[:98]
 
 train_loader = get_dataloader(train_questions, train_traits)
 test_loader = get_dataloader(test_questions, test_traits)
+
 epochs = 5
 learning_rate = 1e-2
 

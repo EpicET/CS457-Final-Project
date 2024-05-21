@@ -10,8 +10,9 @@ import numpy as np
 import random
 
 # Load and preprocess data
-train_questions, train_traits  = preprocess_data(file_path, "train_data")
-test_questions, test_traits = preprocess_data(file_path, "test_data")
+questions, traits  = preprocess_data(file_path)
+train_questions, train_traits = questions[24:], traits[24:]
+test_questions, test_traits = questions[:98], traits[:98]
 
 
 # Vectorize the text data
@@ -30,7 +31,7 @@ baseline()
 
 print("Multinomial Naive Bayes")
 # Iterate over each trait
-traits = ['work', 'teachability', 'commitment', 'Flexibility', 'adventerous']
+traits = ['work', 'teachability', 'commitment', 'flexibility', 'adventerous']
 for target_trait in traits:
     y_train = train_traits[target_trait]
     y_train = np.round(y_train).astype(int)
