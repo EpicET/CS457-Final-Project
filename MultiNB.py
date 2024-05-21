@@ -4,8 +4,10 @@ from sklearn.metrics import precision_score, recall_score
 import matplotlib.pyplot as plt
 from data.private import file_path
 from util import  preprocess_data
+from Baseline import baseline
 import pandas as pd
 import numpy as np
+import random
 
 # Load and preprocess data
 train_questions, train_traits  = preprocess_data(file_path, "train_data")
@@ -21,9 +23,10 @@ train_accuracies = []
 test_accuracies = []
 precisions = []
 recalls = []
-
+print("Baseline")
+baseline(test_traits)
 # Iterate over each trait
-traits = ['work', 'teachability', 'commitment', 'Flexibility', 'adventerous', 'overall score']
+traits = ['work', 'teachability', 'commitment', 'Flexibility', 'adventerous']
 for target_trait in traits:
     y_train = train_traits[target_trait]
     y_train = np.round(y_train).astype(int)

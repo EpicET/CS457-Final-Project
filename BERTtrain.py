@@ -2,6 +2,7 @@ from torch import cuda, optim
 from torch import argmax
 import torch.nn as nn
 from tqdm import tqdm
+from torch.utils.data import DataLoader
 from data.private import file_path
 from BERT import ApplicationReviewModel
 from util import  preprocess_data, model_accuracy, get_dataloader
@@ -16,8 +17,8 @@ epochs = 5
 learning_rate = 1e-2
 
 
-def train_model(model: ApplicationReviewModel, train_loader, 
-                dev_loader, epochs: int, learning_rate: float):
+def train_model(model: ApplicationReviewModel, train_loader: DataLoader, 
+                dev_loader: DataLoader, epochs: int, learning_rate: float):
     
     device = "cuda" if cuda.is_available() else "cpu"
     criterion = nn.NLLLoss() 
@@ -51,6 +52,7 @@ def train_model(model: ApplicationReviewModel, train_loader,
             correct += (predicted == actual).sum().item()
             total += trait_scores.size(0)
 
+       
         avg_loss = total_loss / len(train_loader)
         train_accuracy = correct / total
         dev_accuracy = model_accuracy(model, dev_loader, device)
