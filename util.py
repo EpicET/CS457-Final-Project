@@ -24,30 +24,17 @@ def preprocess_data(data):
 
     return questions['combined'], traits
 
-def get_dataloader(data, batch_size: int=4):
+def get_dataloader(questions, traits, data, batch_size: int=4):
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
-    input_ids = []
-    attention_masks = []
-    trait_scores = []
+    tokenized = tokenizer(questions.tolist(), padding=True, truncation=True, return_tensors="pt")
+    
+    input_ids = tokenized['input_ids']
+    attention_masks = tokenized['attention_mask']
+    trait_scores = torch.tensor(traits.values, dtype=torch.long)
 
-    # create batches with input_ids, attention_mask, traits
-    for i in range(0, len(data), batch_size):
-        batch = data[i:i+batch_size]
-        texts = [q1 + ' ' + q2 + ' ' + q3 for q1, q2, q3 in zip(batch['Q1'], batch['Q2'], batch['Q3'])]
-        tokenized_batch = tokenizer(texts, padding=True, truncation=True, return_tensors="pt")
-        
-        input_ids.append(tokenized_batch['input_ids'])
-        attention_masks.append(tokenized_batch['attention_mask'])
-        trait_scores.append(torch.tensor(batch[['work', 'teachability', 'commitment', 'Flexibility', 'adventerous', 'overall score']].values, dtype=torch.long))
-
-    input_ids = torch.cat(input_ids, dim=0)
-    attention_masks = torch.cat(attention_masks, dim=0)
-    trait_scores = torch.cat(trait_scores, dim=0)
-
-    # import datasets gives an error so have to create a dataset
     dataset = TensorDataset(input_ids, attention_masks, trait_scores)
-    dataloader = DataLoader(dataset, batch_size=batch_size)
-
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+    
     return dataloader
 
 def model_accuracy(model: ApplicationReviewModel, dataloader: DataLoader, device):
