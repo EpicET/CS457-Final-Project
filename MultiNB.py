@@ -23,8 +23,12 @@ train_accuracies = []
 test_accuracies = []
 precisions = []
 recalls = []
-print("Baseline")
-baseline(test_traits)
+
+print("Baseline: outside")
+baseline()
+
+
+print("Multinomial Naive Bayes")
 # Iterate over each trait
 traits = ['work', 'teachability', 'commitment', 'Flexibility', 'adventerous']
 for target_trait in traits:

@@ -1,10 +1,12 @@
 from torch import cuda, optim
-from torch import argmax
+from torch import argmax, manual_seed
 import torch.nn as nn
 from tqdm import tqdm
 from torch.utils.data import DataLoader
 from data.private import file_path
 from BERT import ApplicationReviewModel
+from Baseline import baseline
+
 from util import  preprocess_data, model_accuracy, get_dataloader
 
 # Load and preprocess data
@@ -64,9 +66,10 @@ def train_model(model: ApplicationReviewModel, train_loader: DataLoader,
 # initialize model and dataloaders
 device = "cuda" if cuda.is_available() else "cpu"
 
-    # seed the model before initializing weights so that your code is deterministic
-# manual_seed(457)
+# seed the model before initializing weights so that your code is deterministic
+manual_seed(457)
 
 model = ApplicationReviewModel().to(device)
-
+print("Baseline: outside")
+baseline()
 train_model(model, train_loader, test_loader, epochs, learning_rate)
