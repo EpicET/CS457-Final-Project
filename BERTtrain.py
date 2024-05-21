@@ -34,7 +34,7 @@ def train_model(model: ApplicationReviewModel, train_loader,
         correct = 0
         total = 0
 
-        model.train()
+        # model.train()
         for batch in tqdm(train_loader, desc=f"Epoch {epoch + 1}/{epochs}"):
             input_ids = batch[0].to(device)
             attention_mask = batch[1].to(device)
@@ -45,7 +45,7 @@ def train_model(model: ApplicationReviewModel, train_loader,
 
             # print("outputs", outputs)
           
-            loss = criterion(outputs, trait_scores.squeeze(1))
+            loss = criterion(outputs, trait_scores.argmax(dim=1))
             loss.backward()
             optimizer.step()
 
