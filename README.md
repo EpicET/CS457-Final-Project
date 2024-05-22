@@ -14,6 +14,8 @@ Next step is to make sure all the necessary libraries are installed in the envir
 If you want to update any files, use conda update library. 
 
 ## Run code
+Before running the code make sure to adjust file path so that it access the correct data file. 
+
 To run Naives Bayes model you can use a run button at the top right or use the specified launch.json to run the current file. The baseline model is called within the Naive Bayes file so it will be run too. 
 
 

@@ -1,5 +1,4 @@
 import pandas as pd
-from BERT import ApplicationReviewModel
 import torch
 from transformers import AutoTokenizer
 from torch.utils.data import DataLoader, TensorDataset
@@ -30,34 +29,3 @@ def get_dataloader(questions: pd.Series, traits: pd.DataFrame, batch_size: int=4
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     
     return dataloader
-
-def model_accuracy(model: ApplicationReviewModel, dataloader: DataLoader, device):
-    """Compute the accuracy of a regression model
-
-    Args:
-        model (ApplicationReviewModel): a regression model
-        dataloader (DataLoader): a pytorch data loader to test the model with
-        device (string): cpu or cuda, the device that the model is on
-
-    Returns:
-        float: the accuracy of the model
-    """
-    model.eval()
-    with torch.no_grad():
-        correct = 0
-        total = 0
-        for batch in dataloader:
-            input_ids = batch[0].to(device)
-            attention_mask = batch[1].to(device)
-            trait_scores = batch[2].to(device)
-
-            outputs = model(input_ids, attention_mask)
-            # Assuming that the model outputs are directly comparable to trait scores
-            correct += ((outputs > 0.5).to(int) == trait_scores).sum().item()
-            total += trait_scores.size(0)
-        acc = correct / total
-        return acc
-
-
-
-

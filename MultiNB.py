@@ -1,15 +1,13 @@
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import precision_score, recall_score
-import matplotlib.pyplot as plt
-from data.private import file_path
+# from data.private import file_path
 from util import  preprocess_data
 from Baseline import Baseline
-import pandas as pd
 import numpy as np
 
 # Load and preprocess data
-questions, traits  = preprocess_data(file_path)
+questions, traits  = preprocess_data("/home/etowner/Final_project/data/NLP MAlt scores.xlsx")
 train_questions, train_traits = questions[24:], traits[24:]
 test_questions, test_traits = questions[:24], traits[:24]
 
@@ -24,6 +22,7 @@ test_accuracies = []
 precisions = []
 recalls = []
 
+# Run baseline model 
 print("Baseline")
 base = Baseline()
 base.predict()
@@ -52,38 +51,7 @@ for target_trait in traits:
     precision = round(precision_score(y_test, predictions, average='weighted', zero_division=1), 2)
     recall = round(recall_score(y_test, predictions, average='weighted', zero_division=1), 2)
 
-    # Append results to lists
-    train_accuracies.append(train_accuracy)
-    test_accuracies.append(test_accuracy)
-    precisions.append(precision)
-    recalls.append(recall)
-
     # Print results for each trait
     print(f"Trait: {target_trait} |", f"Train accuracy: {train_accuracy} |", f"Test accuracy: {test_accuracy} |", f"Precision: {precision} |", f"Recall: {recall}")
     print()
 
-
-scores = pd.DataFrame(columns=['train_accuracy', 'test_accuracy', 'precision', 'recall'])
-scores['train_accuracy'] = train_accuracies
-scores['test_accuracy'] = test_accuracies
-scores['precision'] = precisions
-scores['recall'] = recalls
-scores.index = traits
-
-fig, ax = plt.subplots()
-
-# Create the table
-table = ax.table(cellText=scores.values, colLabels=scores.columns, rowLabels=scores.index, loc='center', cellLoc='center')
-
-# Modify table properties
-table.auto_set_font_size(True)
-# table.set_fontsize(12)
-# table.scale(1.2, 1.2)  # Adjust scaling for better readability
-
-# Hide axes
-ax.axis('off')
-
-plt.title("Naive Bayes Evaluation")
-
-# Show the table
-plt.show()
