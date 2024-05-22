@@ -7,7 +7,7 @@ from data.private import file_path
 from BERT import ApplicationReviewModel
 from Baseline import Baseline
 
-from util import  preprocess_data, model_accuracy, get_dataloader
+from util import  preprocess_data, model_accuracy, get_dataloader, precision_recall
 
 # Load and preprocess data
 questions, traits  = preprocess_data(file_path)
@@ -57,10 +57,13 @@ def train_model(model: ApplicationReviewModel, train_loader: DataLoader,
         avg_loss = total_loss / len(train_loader)
         train_accuracy = correct / total
         dev_accuracy = model_accuracy(model, dev_loader, device)
+        precision, recall = precision_recall(model, dev_loader, device, num_classes=5)
         print("Epoch", epoch + 1)
         print("Train loss", avg_loss)
         print("Train Accuracy", train_accuracy)
         print("Dev accuracy", dev_accuracy)
+        print("Precision", precision)
+        print("Recall", recall)
 
 # initialize model and dataloaders
 device = "cuda" if cuda.is_available() else "cpu"
