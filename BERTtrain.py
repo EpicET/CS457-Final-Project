@@ -10,7 +10,9 @@ from Baseline import Baseline
 from util import  preprocess_data, model_accuracy, get_dataloader, precision_recall
 
 # Load and preprocess data
-questions, traits  = preprocess_data(file_path)
+questions, traits  = preprocess_data("/home/etowner/Final_project/data/NLP MAlt scores.xlsx")
+
+# Split the data into training and testing sets
 train_questions, train_traits = questions[24:], traits[24:]
 test_questions, test_traits = questions[:24], traits[:24]
 
@@ -42,6 +44,7 @@ def train_model(model: ApplicationReviewModel, train_loader: DataLoader,
             optimizer.zero_grad()
             outputs = model(input_ids, attention_mask)
            
+            # compute loss, backward pas, and update weights
             loss = criterion(outputs, trait_scores.argmax(dim=1))
             loss.backward()
             optimizer.step()
@@ -58,14 +61,13 @@ def train_model(model: ApplicationReviewModel, train_loader: DataLoader,
         train_accuracy = correct / total
         dev_accuracy = model_accuracy(model, dev_loader, device)
         precision, recall = precision_recall(model, dev_loader, device, num_classes=5)
+
         print("Epoch", epoch + 1)
         print("Train loss", avg_loss)
         print("Train Accuracy", train_accuracy)
         print("Dev accuracy", dev_accuracy)
-        print("Precision", precision)
-        print("Recall", recall)
-
-# initialize model and dataloaders
+        
+# Set the device to GPU if available, else CPU
 device = "cuda" if cuda.is_available() else "cpu"
 
 # seed the model before initializing weights so that your code is deterministic
@@ -73,9 +75,11 @@ manual_seed(457)
 
 model = ApplicationReviewModel().to(device)
 
+#run the baseline model
 print("Baseline")
 base = Baseline()
 base.predict()
 
+# run the BERT model
 print("BERT Model")
 train_model(model, train_loader, test_loader, epochs, learning_rate)

@@ -10,7 +10,7 @@ import numpy as np
 questions, traits  = preprocess_data("/home/etowner/Final_project/data/NLP MAlt scores.xlsx")
 
 # Split the data into training and testing sets
-train_questions, train_traits = questions[24:], traits[24:]
+train_questions, train_traits = questions[2:], traits[24:]
 test_questions, test_traits = questions[:24], traits[:24]
 
 

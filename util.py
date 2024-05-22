@@ -92,8 +92,8 @@ def precision_recall(model: ApplicationReviewModel, dataloader: DataLoader, devi
                 false_positives[i] += ((predicted == i) & (actual != i)).sum().item()
                 false_negatives[i] += ((predicted != i) & (actual == i)).sum().item()
 
-        precision = true_positives / (true_positives + false_positives)
-        recall = true_positives / (true_positives + false_negatives)
+        precision = true_positives / (true_positives + false_positives + 1e-10)  # Add a small value to avoid division by zero
+        recall = true_positives / (true_positives + false_negatives + 1e-10)  # Add a small value to avoid division by zero
 
         return precision, recall
 
