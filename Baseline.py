@@ -8,20 +8,20 @@ from sklearn.metrics import precision_score, recall_score
 # Load and preprocess data
 questions, traits  = preprocess_data(file_path)
 train_questions, train_traits = questions[24:], traits[24:]
-test_questions, test_traits = questions[:98], traits[:98]
+test_questions, test_traits = questions[:24], traits[:24]
 
 # Set random seed for reproducibility
 random.seed(457)  
 
 class Baseline:
-    def __init__(self, train_traits: pd.DataFrame, test_traits: pd.DataFrame):
+    def __init__(self):
         self.train_traits = train_traits
         self.test_traits = test_traits
-        self.traits = ['work', 'teachability', 'commitment', 'flexibility', 'adventerous']
+        self.labels = ['work', 'teachability', 'commitment', 'flexibility', 'adventerous']
     
    
     def predict(self):
-        for target_trait in self.traits:
+        for target_trait in self.labels:
             true_scores = []
             for _, row in self.test_traits.iterrows():
                 score = int(row[target_trait])
@@ -41,7 +41,3 @@ class Baseline:
             # Print results for each trait
             print(f"Trait: {target_trait} |", f"Test Accuracy: {accuracy} |", f"Precision: {precision} |", f"Recall: {recall}")
             print()
-
-base = Baseline(train_traits, test_traits)
-
-base.predict()

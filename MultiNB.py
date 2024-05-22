@@ -4,15 +4,14 @@ from sklearn.metrics import precision_score, recall_score
 import matplotlib.pyplot as plt
 from data.private import file_path
 from util import  preprocess_data
-from Baseline import baseline
+from Baseline import Baseline
 import pandas as pd
 import numpy as np
-import random
 
 # Load and preprocess data
 questions, traits  = preprocess_data(file_path)
 train_questions, train_traits = questions[24:], traits[24:]
-test_questions, test_traits = questions[:98], traits[:98]
+test_questions, test_traits = questions[:24], traits[:24]
 
 
 # Vectorize the text data
@@ -25,8 +24,9 @@ test_accuracies = []
 precisions = []
 recalls = []
 
-print("Baseline: outside")
-baseline()
+print("Baseline")
+base = Baseline()
+base.predict()
 
 
 print("Multinomial Naive Bayes")
@@ -59,7 +59,7 @@ for target_trait in traits:
     recalls.append(recall)
 
     # Print results for each trait
-    print(f"Trait: {target_trait} |", f"Test accuracy: {test_accuracy} |", f"Precision: {precision} |", f"Recall: {recall}")
+    print(f"Trait: {target_trait} |", f"Train accuracy: {train_accuracy} |", f"Test accuracy: {test_accuracy} |", f"Precision: {precision} |", f"Recall: {recall}")
     print()
 
 
