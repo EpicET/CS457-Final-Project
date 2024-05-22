@@ -8,6 +8,8 @@ import numpy as np
 
 # Load and preprocess data
 questions, traits  = preprocess_data("/home/etowner/Final_project/data/NLP MAlt scores.xlsx")
+
+# Split the data into training and testing sets
 train_questions, train_traits = questions[24:], traits[24:]
 test_questions, test_traits = questions[:24], traits[:24]
 
@@ -16,11 +18,6 @@ test_questions, test_traits = questions[:24], traits[:24]
 vectorizer = CountVectorizer()
 X_train = vectorizer.fit_transform(train_questions)
 X_test = vectorizer.transform(test_questions)
-
-train_accuracies = []
-test_accuracies = []
-precisions = []
-recalls = []
 
 # Run baseline model 
 print("Baseline")
